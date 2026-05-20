@@ -1,6 +1,6 @@
 # SupportNow WhatsApp Chatbot 🤖
 
-Welcome! This guide will walk you step-by-step through setting up your very own WhatsApp Chatbot from scratch using Node.js, the Meta WhatsApp Cloud API, and Zoho Desk.
+This guide will walk you step-by-step through setting up your very own WhatsApp Chatbot from scratch using Node.js, the Meta WhatsApp Cloud API, and Zoho Desk.
 
 ## 🌟 Features
 - **Interactive Troubleshooting Menus**: Troubleshoot PLCs, VFDs, instruments, and more natively in WhatsApp using List and Button messages.
