@@ -3,8 +3,9 @@
 This guide will walk you step-by-step through setting up your very own WhatsApp Chatbot from scratch using Node.js, the Meta WhatsApp Cloud API, and Zoho Desk.
 
 ## 🌟 Features
-- **Interactive Troubleshooting Menus**: Troubleshoot PLCs, VFDs, instruments, and more natively in WhatsApp using List and Button messages.
-- **Smart Search**: Customers can simply type "Pump not starting" and get an immediate knowledge-base match.
+- **Interactive Troubleshooting Menus**: Troubleshoot HeatWatch telemetry systems, PLCs, VFDs, instruments, and other plant automation hardware natively in WhatsApp using List and Button messages.
+- **Dedicated HeatWatch Diagnostics**: Step-by-step assistance for PPI AIME 8U communication loss, RTD sensor faults, alarm relay/siren triggers, and touchscreen kiosk services.
+- **Smart Search**: Customers can simply type "HeatWatch siren won't stop" or "Pump not starting" and get an immediate knowledge-base match.
 - **Engineer Support Request Flow**: A state-based flow that asks for problem, company, an optional photo, and support type.
 - **Zoho Desk Integration**: Automatically generates support tickets with customer info and image attachments right inside your Zoho Desk portal.
 

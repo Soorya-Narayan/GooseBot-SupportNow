@@ -22,6 +22,27 @@ const {
 const userState = {};
 
 const KNOWLEDGE_BASE = {
+  HEATWATCH: {
+    title: "🔥 HeatWatch Monitoring System",
+    options: [
+      { id: "HW_RTD", title: "RTD / Sensor Channels", desc: "Open circuit, erratic temp, drift" },
+      { id: "HW_COMM", title: "AIME 8U Comm Failure", desc: "Module offline, timeout, mock mode" },
+      { id: "HW_ALARM", title: "Siren & Alarm Relay", desc: "Siren won't stop, no alarm, mute" },
+      { id: "HW_DASH", title: "Dashboard & Kiosk", desc: "Blank screen, InfluxDB down, reboot" }
+    ],
+    help: {
+      HW_RTD: "🌡 *HeatWatch RTD / Sensor Channels Check:*\n1. Check if channel displays 'OPEN' or 'INACTIVE' on the dashboard.\n2. Inspect 3-wire/4-wire PT100 wiring on the PPI AIME 8U terminal block.\n3. Measure RTD sensor resistance with a multimeter (~107.8Ω at 20°C, ~100Ω at 0°C).\n4. Check sensor calibration offset in Admin Settings (`/api/config`).",
+      HW_COMM: "🌐 *PPI AIME 8U Telemetry Module Comm Check:*\n1. Check if module power LED (24V DC auxiliary PSU) is solid green.\n2. Verify Ethernet link lights between AIME 8U and Raspberry Pi / Switch.\n3. Confirm default module IP is reachable (`192.168.1.2`, port 80).\n4. Check poller status: `sudo systemctl status heatwatch-poller`.\n5. If in mock mode, ensure `mockMode: false` in `setup_config.json`.",
+      HW_ALARM: "🚨 *HeatWatch Siren & Relay Check:*\n1. *Continuous Siren:* Check if temperature breached HiHi or LoLo emergency limits on dashboard.\n2. *Mute Siren:* Use the 'Mute' button on dashboard or press emergency silence.\n3. *No Sound on Alarm:* Verify 12V/24V external power supply to relay contacts.\n4. Check relay service status: `sudo systemctl status heatwatch-relay`.\n5. Verify GPIO pins (GPIO 18 hooter, 23 warning, 24 critical).",
+      HW_DASH: "🖥 *HeatWatch Dashboard & Services Check:*\n1. If screen is blank/frozen, check Raspberry Pi power and HDMI/display ribbon cable.\n2. Restart dashboard service: `sudo systemctl restart heatwatch-dashboard`.\n3. Restart poller & relay: `sudo systemctl restart heatwatch-poller heatwatch-relay`.\n4. If historical trends / charts fail to load, verify InfluxDB is running on port 8086: `sudo systemctl status influxdb`.\n5. Full reboot: `sudo reboot`."
+    },
+    keywords: {
+      HW_RTD: ["rtd", "pt100", "probe", "temperature", "temp", "ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "ch8", "open", "drift", "inactive"],
+      HW_COMM: ["aime", "aime 8u", "comm", "communication", "modbus", "192.168.1.2", "ethernet", "timeout", "offline", "mock"],
+      HW_ALARM: ["siren", "hooter", "alarm", "relay", "buzzer", "mute", "hihi", "lolo", "beeping"],
+      HW_DASH: ["dashboard", "kiosk", "screen", "influx", "influxdb", "blank", "frozen", "reboot", "touchscreen", "display"]
+    }
+  },
   PLC: {
     title: "🖥 PLC Control Panel",
     options: [
@@ -35,6 +56,12 @@ const KNOWLEDGE_BASE = {
       PLC_PWR: "🔌 *Power Supply Check (Multimeter Required):*\n1. Verify incoming 230V AC or 24V DC.\n2. Check if the PSU output LED is ON.\n3. Inspect for blown fuses or tripped breakers.\n4. Check for loose wiring on terminals.",
       PLC_IO: "🚥 *I/O Module Check (Multimeter Required):*\n1. Check status LEDs on the module.\n2. Verify 24V DC field supply is present.\n3. Check for short circuits in field wiring.\n4. Swap module if internal hardware failure.",
       PLC_COMM: "🌐 *Communication Check:*\n1. Inspect RJ45 or Profibus connectors.\n2. Check link LEDs on Ethernet ports.\n3. Ping the PLC IP from the local network.\n4. Verify node addresses and terminations."
+    },
+    keywords: {
+      PLC_CPU: ["cpu", "run mode", "stop mode", "err", "alm", "diagnostic", "battery"],
+      PLC_PWR: ["power supply", "psu", "voltage drop", "blown fuse", "tripped breaker", "loose wiring"],
+      PLC_IO: ["io module", "i/o", "input signal", "output signal", "short circuit", "field supply"],
+      PLC_COMM: ["profibus", "profinet", "rj45", "ethernet failure", "node address", "plc comm"]
     }
   },
   INSTRUMENTS: {
@@ -50,6 +77,12 @@ const KNOWLEDGE_BASE = {
       INST_TEMP: "🌡 *Temp Sensor Check (Multimeter Required):*\n1. Check RTD/Thermocouple wiring.\n2. Look for open circuit (32767 value).\n3. Verify PT100 resistance matches temp.\n4. Check for interference on shielded cable.",
       INST_LEV: "💧 *Level Sensor Check:*\n1. Inspect ultrasonic/radar for build-up.\n2. Check if sensor is correctly aimed.\n3. Verify tank empty/full setpoints.\n4. Bypass to test if PLC logic reacts.",
       INST_PRES: "📉 *Pressure Transmitter (Multimeter Required):*\n1. Ensure isolation valve is open.\n2. Check for leaks in capillary tubes.\n3. Verify loop power (24V DC).\n4. Bleed air from the process line."
+    },
+    keywords: {
+      INST_SENS: ["sensor", "4-20ma", "m12", "analog input", "sensing face"],
+      INST_TEMP: ["rtd", "thermocouple", "open circuit", "32767", "shielded cable", "temp sensor"],
+      INST_LEV: ["level sensor", "ultrasonic", "radar", "tank level", "setpoint"],
+      INST_PRES: ["pressure", "transmitter", "transducer", "capillary", "bleed air"]
     }
   },
   VFD: {
@@ -64,6 +97,12 @@ const KNOWLEDGE_BASE = {
       VFD_FLT: "⚙ *VFD Fault Reset (Multimeter Required):*\n1. Identify code (e.g., OC = Overcurrent).\n2. Reset VFD on keypad or HMI.\n3. Check motor phase-to-phase insulation.\n4. Verify deceleration time isn't too short.",
       VFD_COMM: "🕸 *VFD Comm Check:*\n1. Inspect communication card/plug.\n2. Check Modbus/Profinet cable.\n3. Verify VFD Slave ID and Baud rate.\n4. Check terminator resistors.",
       VFD_RUN: "🔄 *Motor Run Check (Multimeter Required):*\n1. Verify 'Run' command is active in PLC.\n2. Check 'Ready' signal back to PLC.\n3. Ensure STO (Safety Torque Off) is high.\n4. Check VFD logic (Input/Source)."
+    },
+    keywords: {
+      VFD_FLT: ["vfd fault", "fault code", "overcurrent", "overvoltage", "overload", "oc fault", "ov fault", "ol fault"],
+      VFD_COMM: ["vfd comm", "modbus", "slave id", "baud rate", "comm card"],
+      VFD_RUN: ["motor not run", "motor run", "humming", "sto", "safety torque"],
+      VFD_PARAM: ["vfd parameter", "speed", "torque", "acceleration", "deceleration"]
     }
   },
   OTHERS: {
@@ -77,6 +116,11 @@ const KNOWLEDGE_BASE = {
       OT_VALVE: "⚙ *Valve Check:*\n1. Check solenoid air supply.\n2. Verify proximity sensor mounting.\n3. Manually override the solenoid.\n4. Inspect valve seal for blockage.",
       OT_PUMP: "🔄 *Pump Check:*\n1. Check rotation direction.\n2. Verify mechanical seal for leaks.\n3. Listen for cavitation noises.\n4. Ensure suction strainer is clean.",
       OT_LOAD: "⚖ *Load Cell Check (Multimeter Required):*\n1. Check millivolt (mV) signal output.\n2. Verify bridge excitation voltage (5-10V DC).\n3. Check for physical binding or dirt.\n4. Inspect cable for cuts or moisture."
+    },
+    keywords: {
+      OT_VALVE: ["valve", "solenoid", "pneumatic", "proximity sensor", "valve seal"],
+      OT_PUMP: ["pump", "mechanical seal", "cavitation", "suction strainer", "pump noise"],
+      OT_LOAD: ["load cell", "loadcell", "weight error", "excitation voltage", "drift"]
     }
   }
 };
@@ -143,6 +187,7 @@ async function showMainMenu(to) {
     [{
       title: "Troubleshooting",
       rows: [
+        { id: "MENU_HEATWATCH", title: "HeatWatch System", description: "RTD, Comm, Siren, Kiosk" },
         { id: "MENU_PLC", title: "PLC Control Panel", description: "CPU, I/O, Power, Comm" },
         { id: "MENU_INST", title: "Instruments", description: "Sensors, Levels, Pressure" },
         { id: "MENU_VFD", title: "VFD", description: "Faults, Motor Run, Comm" },
@@ -183,15 +228,54 @@ async function showSystemMenu(to, systemKey) {
 }
 
 async function handleSmartSearch(to, query) {
-  const lowerQuery = query.toLowerCase();
+  const lowerQuery = query.toLowerCase().trim();
+
+  // Direct HeatWatch intent handling
+  if (
+    lowerQuery === "heatwatch" ||
+    lowerQuery === "heat watch" ||
+    lowerQuery.includes("heatwatch") ||
+    lowerQuery.includes("heat watch")
+  ) {
+    const hwKeywords = KNOWLEDGE_BASE.HEATWATCH.keywords;
+    let specificFound = null;
+
+    for (const [id, words] of Object.entries(hwKeywords)) {
+      if (words.some(w => lowerQuery.includes(w))) {
+        specificFound = { id, text: KNOWLEDGE_BASE.HEATWATCH.help[id] };
+        break;
+      }
+    }
+
+    if (specificFound) {
+      return await sendButtons(to, `🔍 *HeatWatch Search Result:*\n\n${specificFound.text}`, [
+        { id: "GO_MAIN", title: "🏠 Main Menu" },
+        { id: "CONTACT_START", title: "👨‍🔧 Request Engineer" }
+      ]);
+    }
+
+    // General inquiry -> Direct to HeatWatch System menu
+    return await showSystemMenu(to, "HEATWATCH");
+  }
+
   let found = null;
 
-  // Simple keyword matching across all help entries
+  // Search across all knowledge base categories
   for (const sys of Object.values(KNOWLEDGE_BASE)) {
-    for (const [id, text] of Object.entries(sys.help)) {
-      if (lowerQuery.includes(id.split('_')[1].toLowerCase()) || lowerQuery.includes(sys.title.toLowerCase())) {
-        found = { id, text };
-        break;
+    if (sys.keywords) {
+      for (const [id, words] of Object.entries(sys.keywords)) {
+        if (words.some(w => lowerQuery.includes(w))) {
+          found = { id, text: sys.help[id] };
+          break;
+        }
+      }
+    } else {
+      for (const [id, text] of Object.entries(sys.help)) {
+        const idKey = id.split('_')[1]?.toLowerCase();
+        if (idKey && lowerQuery.includes(idKey)) {
+          found = { id, text };
+          break;
+        }
       }
     }
     if (found) break;
@@ -203,7 +287,7 @@ async function handleSmartSearch(to, query) {
       { id: "CONTACT_START", title: "👨‍🔧 Request Engineer" }
     ]);
   } else {
-    await sendText(to, "Sorry, I couldn't find a direct match. Try selecting a category or phrase your issue differently (e.g., 'Pump', 'Sensor', 'VFD').");
+    await sendText(to, "Sorry, I couldn't find a direct match. Try selecting a category or phrase your issue differently (e.g., 'HeatWatch', 'RTD', 'Pump', 'Sensor', 'VFD').");
     await showMainMenu(to);
   }
 }
@@ -498,6 +582,7 @@ app.post("/webhook", async (req, res) => {
     if (!id) return;
 
     if (id === "GO_MAIN") return await showMainMenu(from);
+    if (id === "MENU_HEATWATCH") return await showSystemMenu(from, "HEATWATCH");
     if (id === "MENU_PLC") return await showSystemMenu(from, "PLC");
     if (id === "MENU_INST") return await showSystemMenu(from, "INSTRUMENTS");
     if (id === "MENU_VFD") return await showSystemMenu(from, "VFD");

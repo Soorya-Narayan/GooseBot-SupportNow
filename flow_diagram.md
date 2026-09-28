@@ -26,6 +26,7 @@ flowchart TD
     MsgType -- "Interactive" --> ActionType{ID Triggered?}
 
     %% Main Menu Actions
+    ActionType -- "MENU_HEATWATCH" --> ShowHW[Show HeatWatch List]
     ActionType -- "MENU_PLC" --> ShowPLC[Show PLC Panel List]
     ActionType -- "MENU_INST" --> ShowInst[Show Instruments List]
     ActionType -- "MENU_VFD" --> ShowVFD[Show VFD List]
