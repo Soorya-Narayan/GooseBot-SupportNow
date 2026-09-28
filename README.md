@@ -1,24 +1,24 @@
-# SupportNow WhatsApp Chatbot 🤖
+# SupportNow WhatsApp Chatbot
 
 This guide will walk you step-by-step through setting up your very own WhatsApp Chatbot from scratch using Node.js, the Meta WhatsApp Cloud API, and Zoho Desk.
 
-## 🌟 Features
+## Features
 - **Interactive Troubleshooting Menus**: Troubleshoot HeatWatch telemetry systems, PLCs, VFDs, instruments, and other plant automation hardware natively in WhatsApp using List and Button messages.
 - **Dedicated HeatWatch Diagnostics**: Step-by-step assistance for PPI AIME 8U communication loss, RTD sensor faults, alarm relay/siren triggers, and touchscreen kiosk services.
 - **Smart Search**: Customers can simply type "HeatWatch siren won't stop" or "Pump not starting" and get an immediate knowledge-base match.
 - **Engineer Support Request Flow**: A state-based flow that asks for problem, company, an optional photo, and support type.
 - **Zoho Desk Integration**: Automatically generates support tickets with customer info and image attachments right inside your Zoho Desk portal.
 
-## 📸 Demo Screenshots
+## Demo Screenshots
 
-| 1️⃣ Main Menu Options | 2️⃣ Troubleshooting Flow | 3️⃣ Support Ticket Creation |
+| 1. Main Menu Options | 2. Troubleshooting Flow | 3. Support Ticket Creation |
 |:---:|:---:|:---:|
 | <img src="assets/main_menu.png" width="280" alt="Main Menu"/> | <img src="assets/troubleshooting_flow.png" width="280" alt="Troubleshooting Flow"/> | <img src="assets/ticket_creation.png" width="280" alt="Ticket Creation"/> |
 | *Interactive list menu for troubleshooting & support* | *Step-by-step guided diagnosis for equipment* | *Automated Zoho Desk ticket summary* |
 
 ---
 
-## 🛠 Prerequisites
+## Prerequisites
 
 Before starting, make sure you have:
 1. **Node.js** installed on your computer.
@@ -28,7 +28,7 @@ Before starting, make sure you have:
 
 ---
 
-## 🚀 Step-by-Step Setup Guide
+## Step-by-Step Setup Guide
 
 ### 1. Clone & Install
 First, clone this repository to your local machine and install the required dependencies.
@@ -93,21 +93,21 @@ Copy the secure `https://` URL provided by ngrok in your terminal.
 5. Click **Verify and Save**.
 6. Immediately below that, click **Manage** in Webhook fields and subscribe to `messages`.
 
-### 8. Test Your Bot!
+### 8. Test Your Bot
 1. Add the test WhatsApp number provided by Meta to your phone's contacts.
 2. Send a message saying "Hi" or "Menu".
 3. You should receive the main menu and be able to navigate the troubleshooting guides!
 
 ---
 
-## ⚙️ Customizing the Knowledge Base
+## Customizing the Knowledge Base
 To make this bot completely your own, open `index.js` and modify the `KNOWLEDGE_BASE` object. You can change the categories, issues, and the helpful responses the bot gives without needing a database!
 
 ```javascript
 /* Inside index.js */
 const KNOWLEDGE_BASE = {
   YOUR_CATEGORY: {
-    title: "🔧 Your Custom Category",
+    title: "Your Custom Category",
     options: [
       { id: "ISSUE_1", title: "Issue Title", desc: "Short description" }
     ],
@@ -117,6 +117,3 @@ const KNOWLEDGE_BASE = {
   }
 }
 ```
-
----
-Happy Bot Building! 🚀
